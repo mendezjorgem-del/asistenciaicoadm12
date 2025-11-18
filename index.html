@@ -1,307 +1,17 @@
-er {
-      background: var(--danger-light);
-      color: var(--danger);
-    }
-
-    .btn-soft-danger:hover {
-      filter: brightness(0.97);
-    }
-
-    .btn-soft-success {
-      background: var(--success-light);
-      color: var(--success);
-    }
-
-    .btn-soft-success:hover {
-      filter: brightness(0.98);
-    }
-
-    .btn-soft-accent {
-      background: #fff7ed;
-      color: var(--accent);
-      border: 1px solid #fed7aa;
-    }
-
-    .btn-soft-accent:hover {
-      filter: brightness(0.98);
-    }
-
-    .btn-icon {
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 0.8rem;
-    }
-
-    .btn-sm {
-      padding: 4px 10px;
-      font-size: 0.8rem;
-    }
-
-    .table-wrapper {
-      margin-top: 14px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-      background: #ffffff;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.86rem;
-    }
-
-    thead {
-      background: #eff6ff;
-    }
-
-    th,
-    td {
-      padding: 8px 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      font-weight: 600;
-      font-size: 0.8rem;
-      color: #374151;
-    }
-
-    tbody tr:hover {
-      background: #f9fafb;
-    }
-
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 500;
-    }
-
-    .status-presente {
-      background: var(--success-light);
-      color: var(--success);
-    }
-
-    .status-ausente {
-      background: var(--danger-light);
-      color: var(--danger);
-    }
-
-    .status-sin-marcar {
-      background: #e5e7eb;
-      color: #4b5563;
-    }
-
-    .actions-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-      justify-content: flex-end;
-    }
-
-    .empty-state {
-      padding: 16px;
-      text-align: center;
-      color: #9ca3af;
-      font-size: 0.9rem;
-    }
-
-    .class-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.85rem;
-      margin-top: 6px;
-      color: #4b5563;
-    }
-
-    .class-pill {
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--primary-light);
-      border: 1px solid #bfdbfe;
-    }
-
-    .highlight {
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .login-title {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-    }
-
-    .doc-list {
-      margin-top: 10px;
-      font-size: 0.8rem;
-      color: #6b7280;
-    }
-
-    .doc-list span {
-      display: inline-block;
-      margin-right: 6px;
-      margin-bottom: 4px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #f3f4f6;
-    }
-
-    .date-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .date-chip {
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #f9fafb;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    .date-chip.active {
-      background: var(--primary-light);
-      border-color: var(--primary);
-      color: var(--primary-dark);
-      font-weight: 600;
-    }
-
-    .institution-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 4px;
-    }
-
-    .institution-logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .institution-logo img {
-      max-height: 80px;   /* ALTURA MÁXIMA */
-      max-width: 120px;   /* ANCHO MÁXIMO */
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      display: block;
-}
-
-    .institution-text {
-      font-size: 0.9rem;
-      color: #4b5563;
-    }
-
-    .institution-text strong {
-      display: block;
-      font-size: 1rem;
-      color: var(--primary-dark);
-    }
-
-    .footer-card {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #6b7280;
-      background: #f9fafb;
-      border: 1px dashed #d1d5db;
-    }
-
-    .signatures-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-      font-size: 0.8rem;
-    }
-
-    .signatures-table td {
-      border: none;
-      padding: 16px 10px 4px 10px;
-      text-align: center;
-      vertical-align: bottom;
-    }
-
-    .sign-line {
-      border-top: 1px solid #9ca3af;
-      margin: 0 auto 4px auto;
-      width: 90%;
-      height: 0;
-    }
-
-    .no-print {}
-
-    @media (max-width: 768px) {
-      .top-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .actions-row {
-        justify-content: flex-start;
-      }
-
-      /* Ocultamos CI y Correo en pantallas pequeñas (columnas 3 y 4) */
-      #studentsTableBody ~ thead th:nth-child(3),
-      #studentsTableBody ~ thead th:nth-child(4) {
-        display: none;
-      }
-
-      #studentsTableBody td:nth-child(3),
-      #studentsTableBody td:nth-child(4) {
-        display: none;
-      }
-    }
-
-    @media print {
-      body {
-        background: #ffffff;
-      }
-      .app {
-        max-width: 100%;
-        padding: 0;
-      }
-      .card {
-        box-shadow: none;
-        border-radius: 0;
-        border: none;
-        margin-bottom: 8px;
-      }
-      .no-print {
-        display: none !important;
-      }
-      .table-wrapper {
-        border-radius: 0;
-        border: 1px solid #000;
-      }
-      table {
-        font-size: 0.8rem;
-      }
-      h1 {
-        justify-content: center;
-      }
-      .footer-card {
-        border: none;
-      }
-    }
-  </style>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>UNICEN - Sistema de Registro de Asistencia (Acta)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="app">
-    <!-- ===== ENCABEZADO INSTITUCIONAL UNICEN (IMPRIMIBLE) ===== -->
+    <!-- ENCABEZADO INSTITUCIONAL -->
     <div class="card">
       <div class="institution-header">
         <div class="institution-logo">
-          <!-- Reemplaza "C:\Users\DTC ICO\Desktop\COORDINADOR DESDE 2025\asistencia-unicen" por la ruta real de tu logo -->
           <img src="logo_unicen.jpg" alt="Logo UNICEN" onerror="this.style.display='none';">
           <div class="institution-text">
             <strong>UNIVERSIDAD CENTRAL (UNICEN)</strong>
@@ -317,7 +27,7 @@ er {
       </div>
     </div>
 
-    <!-- ===== LOGIN DOCENTE ===== -->
+    <!-- LOGIN DOCENTE -->
     <div id="loginView" class="card">
       <div class="login-title">🔐 Acceso Docentes – Sistema de Asistencia</div>
       <p class="subtitle">
@@ -347,12 +57,10 @@ er {
         </div>
       </form>
 
-      <div class="doc-list" id="docentesLista">
-        <!-- Lista de docentes registrados -->
-      </div>
+      <div class="doc-list" id="docentesLista"></div>
     </div>
 
-    <!-- ===== APP PRINCIPAL ===== -->
+    <!-- APP PRINCIPAL -->
     <div id="mainView" style="display:none;">
       <!-- Encabezado funcional -->
       <div class="card">
@@ -393,7 +101,7 @@ er {
         </div>
       </div>
 
-      <!-- Información de Gestión / Período para acta -->
+      <!-- Datos de gestión -->
       <div class="card">
         <h2 style="margin: 0 0 10px; font-size: 1.05rem;">📑 Datos de Gestión Académica (Acta)</h2>
         <p class="subtitle" style="margin-bottom:10px;">
@@ -417,7 +125,7 @@ er {
         </div>
       </div>
 
-      <!-- Info de clase + selector -->
+      <!-- Info clase + selector -->
       <div class="card">
         <div class="class-info">
           <div class="class-pill">
@@ -438,7 +146,7 @@ er {
         </div>
       </div>
 
-      <!-- Configuración de clases (multi-grupo) -->
+      <!-- Gestión de clases -->
       <div class="card no-print">
         <h2 style="margin: 0 0 10px; font-size: 1.1rem;">📚 Gestión de Clases / Grupos – UNICEN</h2>
         <p class="subtitle" style="margin-bottom:10px;">
@@ -467,7 +175,7 @@ er {
         </form>
       </div>
 
-      <!-- Registro de estudiantes -->
+      <!-- Registro estudiantes -->
       <div class="card no-print">
         <h2 style="margin: 0 0 10px; font-size: 1.1rem;">👥 Registro de estudiantes – Clase activa</h2>
         <p class="subtitle" id="hintClaseActiva">
@@ -502,7 +210,7 @@ er {
         </form>
       </div>
 
-      <!-- Tabla de asistencia -->
+      <!-- Tabla asistencia -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
           <h2 style="margin: 0; font-size: 1.1rem;">📋 Control de asistencia del día – Clase activa</h2>
@@ -517,7 +225,7 @@ er {
               ⬇️ Exportar CSV
             </button>
             <button id="btnPrintPdf" class="btn btn-soft-accent btn-sm">
-              🖨️ Imprimir Lista
+              🖨️ Imprimir Acta
             </button>
           </div>
         </div>
@@ -536,16 +244,13 @@ er {
                 <th class="no-print">Acciones</th>
               </tr>
             </thead>
-            <tbody id="studentsTableBody">
-              <!-- Filas dinámicas -->
-            </tbody>
+            <tbody id="studentsTableBody"></tbody>
           </table>
           <div class="empty-state" id="emptyState">
             No hay estudiantes registrados en la clase activa.
           </div>
         </div>
 
-        <!-- Firmas para impresión tipo acta -->
         <table class="signatures-table">
           <tr>
             <td>
@@ -564,7 +269,7 @@ er {
         </table>
       </div>
 
-      <!-- Historial de fechas -->
+      <!-- Historial -->
       <div class="card">
         <h2 style="margin: 0 0 10px; font-size: 1.1rem;">🗓️ Historial de fechas registradas</h2>
         <p class="subtitle">
@@ -577,3 +282,44 @@ er {
               <option value="">Seleccionar...</option>
             </select>
           </div>
+        </div>
+        <div id="chipsFechas" class="date-chips"></div>
+      </div>
+
+      <!-- Resumen -->
+      <div class="card">
+        <h2 style="margin: 0 0 10px; font-size: 1.1rem;">📊 Resumen de asistencia por estudiante</h2>
+        <p class="subtitle">
+          Consolidado de presentes, ausentes y porcentaje de asistencia por estudiante en todas las fechas registradas de la clase activa.
+        </p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>RU</th>
+                <th>Nombre</th>
+                <th>Presentes</th>
+                <th>Ausentes</th>
+                <th>% Asistencia</th>
+              </tr>
+            </thead>
+            <tbody id="summaryTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="emptySummary">
+            No hay registros de asistencia para calcular el resumen.
+          </div>
+        </div>
+      </div>
+
+      <!-- Pie -->
+      <div class="card footer-card">
+        Sistema de Registro de Asistencia – Facultad de Ciencias Empresariales – UNICEN Cochabamba<br>
+        Uso académico interno · Versión demo local (datos almacenados en el navegador)
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
