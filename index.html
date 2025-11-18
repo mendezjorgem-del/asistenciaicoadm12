@@ -4,11 +4,546 @@
   <meta charset="UTF-8" />
   <title>UNICEN - Sistema de Registro de Asistencia (Acta)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --primary: #003a70;
+      --primary-light: #e0ecff;
+      --primary-dark: #002349;
+      --accent: #f59e0b;
+      --bg: #f3f4f6;
+      --text: #111827;
+      --border: #e5e7eb;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --success: #16a34a;
+      --success-light: #dcfce7;
+      --radius: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      max-width: 1100px;
+      width: 100%;
+      padding: 24px 16px 40px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h1 span.logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .subtitle {
+      margin: 0 0 16px;
+      color: #6b7280;
+      font-size: 0.92rem;
+    }
+
+    .top-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .date-picker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+    }
+
+    .date-picker input[type="date"] {
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+    }
+
+    .stats {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+    }
+
+    .stat-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-pill span.value {
+      font-weight: 600;
+    }
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 180px;
+      min-width: 160px;
+    }
+
+    .form-group.small {
+      flex: 0 1 160px;
+      max-width: 220px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      margin-bottom: 3px;
+      color: #6b7280;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      font-size: 0.9rem;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(0, 58, 112, 0.2);
+    }
+
+    select {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      font-size: 0.9rem;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 1px rgba(0, 58, 112, 0.2);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary-dark);
+      border: 1px solid var(--primary-light);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-light);
+    }
+
+    .btn-soft-danger {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .btn-soft-danger:hover {
+      filter: brightness(0.97);
+    }
+
+    .btn-soft-success {
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .btn-soft-success:hover {
+      filter: brightness(0.98);
+    }
+
+    .btn-soft-accent {
+      background: #fff7ed;
+      color: var(--accent);
+      border: 1px solid #fed7aa;
+    }
+
+    .btn-soft-accent:hover {
+      filter: brightness(0.98);
+    }
+
+    .btn-icon {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 0.8rem;
+    }
+
+    .table-wrapper {
+      margin-top: 14px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+
+    thead {
+      background: #eff6ff;
+    }
+
+    th,
+    td {
+      padding: 8px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: #374151;
+    }
+
+    tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .status-presente {
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .status-ausente {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .status-sin-marcar {
+      background: #e5e7eb;
+      color: #4b5563;
+    }
+
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+
+    .empty-state {
+      padding: 16px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 0.9rem;
+    }
+
+    .class-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.85rem;
+      margin-top: 6px;
+      color: #4b5563;
+    }
+
+    .class-pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      border: 1px solid #bfdbfe;
+    }
+
+    .highlight {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .login-title {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .doc-list {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .doc-list span {
+      display: inline-block;
+      margin-right: 6px;
+      margin-bottom: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #f3f4f6;
+    }
+
+    .date-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .date-chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .date-chip.active {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary-dark);
+      font-weight: 600;
+    }
+
+    .institution-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .institution-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .institution-logo img {
+      max-height: 80px;
+      max-width: 120px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .institution-text {
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+
+    .institution-text strong {
+      display: block;
+      font-size: 1rem;
+      color: var(--primary-dark);
+    }
+
+    .footer-card {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6b7280;
+      background: #f9fafb;
+      border: 1px dashed #d1d5db;
+    }
+
+    .signatures-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.8rem;
+    }
+
+    .signatures-table td {
+      border: none;
+      padding: 16px 10px 4px 10px;
+      text-align: center;
+      vertical-align: bottom;
+    }
+
+    .sign-line {
+      border-top: 1px solid #9ca3af;
+      margin: 0 auto 4px auto;
+      width: 90%;
+      height: 0;
+    }
+
+    .no-print {}
+
+    /* ===== PERSONALIZACIÓN: TAMAÑO DE FUENTE ===== */
+    body.font-sm {
+      font-size: 14px;
+    }
+
+    body.font-md {
+      font-size: 16px;
+    }
+
+    body.font-lg {
+      font-size: 18px;
+    }
+
+    /* ===== PERSONALIZACIÓN: TEMAS DE COLOR ===== */
+    body.theme-blue {
+      --primary: #003a70;
+      --primary-dark: #002349;
+      --primary-light: #e0ecff;
+      --accent: #f59e0b;
+    }
+
+    body.theme-green {
+      --primary: #065f46;
+      --primary-dark: #052e16;
+      --primary-light: #bbf7d0;
+      --accent: #22c55e;
+    }
+
+    body.theme-purple {
+      --primary: #4c1d95;
+      --primary-dark: #2e1065;
+      --primary-light: #ede9fe;
+      --accent: #a855f7;
+    }
+
+    @media (max-width: 768px) {
+      .top-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .actions-row {
+        justify-content: flex-start;
+      }
+
+      /* Ocultamos CI y Correo en pantallas pequeñas (columnas 3 y 4) */
+      #studentsTableBody ~ thead th:nth-child(3),
+      #studentsTableBody ~ thead th:nth-child(4) {
+        display: none;
+      }
+
+      #studentsTableBody td:nth-child(3),
+      #studentsTableBody td:nth-child(4) {
+        display: none;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      .app {
+        max-width: 100%;
+        padding: 0;
+      }
+      .card {
+        box-shadow: none;
+        border-radius: 0;
+        border: none;
+        margin-bottom: 8px;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .table-wrapper {
+        border-radius: 0;
+        border: 1px solid #000;
+      }
+      table {
+        font-size: 0.8rem;
+      }
+      h1 {
+        justify-content: center;
+      }
+      .footer-card {
+        border: none;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="app">
-    <!-- ENCABEZADO INSTITUCIONAL -->
+    <!-- ===== ENCABEZADO INSTITUCIONAL UNICEN (IMPRIMIBLE) ===== -->
     <div class="card">
       <div class="institution-header">
         <div class="institution-logo">
@@ -27,7 +562,7 @@
       </div>
     </div>
 
-    <!-- LOGIN DOCENTE -->
+    <!-- ===== LOGIN DOCENTE ===== -->
     <div id="loginView" class="card">
       <div class="login-title">🔐 Acceso Docentes – Sistema de Asistencia</div>
       <p class="subtitle">
@@ -57,10 +592,12 @@
         </div>
       </form>
 
-      <div class="doc-list" id="docentesLista"></div>
+      <div class="doc-list" id="docentesLista">
+        <!-- Lista de docentes registrados -->
+      </div>
     </div>
 
-    <!-- APP PRINCIPAL -->
+    <!-- ===== APP PRINCIPAL ===== -->
     <div id="mainView" style="display:none;">
       <!-- Encabezado funcional -->
       <div class="card">
@@ -101,7 +638,40 @@
         </div>
       </div>
 
-      <!-- Datos de gestión -->
+      <!-- ===== PANEL PERSONALIZACIÓN UI ===== -->
+      <div class="card no-print">
+        <h2 style="margin: 0 0 10px; font-size: 1.05rem;">⚙️ Personalización de interfaz</h2>
+        <p class="subtitle" style="margin-bottom:10px;">
+          Ajuste visual de la plataforma (solo afecta su navegador).
+        </p>
+        <div class="form-row">
+          <div class="form-group small">
+            <label for="uiTheme">Paleta de color</label>
+            <select id="uiTheme">
+              <option value="theme-blue">Azul UNICEN (default)</option>
+              <option value="theme-green">Verde</option>
+              <option value="theme-purple">Morado</option>
+            </select>
+          </div>
+          <div class="form-group small">
+            <label for="uiFontSize">Tamaño de texto</label>
+            <select id="uiFontSize">
+              <option value="font-sm">Pequeño</option>
+              <option value="font-md">Medio (recomendado)</option>
+              <option value="font-lg">Grande</option>
+            </select>
+          </div>
+          <div class="form-group small">
+            <label for="uiLanguage">Idioma exportación CSV</label>
+            <select id="uiLanguage">
+              <option value="es">Español</option>
+              <option value="en">Inglés</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Información de Gestión / Período para acta -->
       <div class="card">
         <h2 style="margin: 0 0 10px; font-size: 1.05rem;">📑 Datos de Gestión Académica (Acta)</h2>
         <p class="subtitle" style="margin-bottom:10px;">
@@ -125,7 +695,7 @@
         </div>
       </div>
 
-      <!-- Info clase + selector -->
+      <!-- Info de clase + selector -->
       <div class="card">
         <div class="class-info">
           <div class="class-pill">
@@ -146,7 +716,7 @@
         </div>
       </div>
 
-      <!-- Gestión de clases -->
+      <!-- Configuración de clases (multi-grupo) -->
       <div class="card no-print">
         <h2 style="margin: 0 0 10px; font-size: 1.1rem;">📚 Gestión de Clases / Grupos – UNICEN</h2>
         <p class="subtitle" style="margin-bottom:10px;">
@@ -175,7 +745,7 @@
         </form>
       </div>
 
-      <!-- Registro estudiantes -->
+      <!-- Registro de estudiantes -->
       <div class="card no-print">
         <h2 style="margin: 0 0 10px; font-size: 1.1rem;">👥 Registro de estudiantes – Clase activa</h2>
         <p class="subtitle" id="hintClaseActiva">
@@ -210,7 +780,7 @@
         </form>
       </div>
 
-      <!-- Tabla asistencia -->
+      <!-- Tabla de asistencia -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
           <h2 style="margin: 0; font-size: 1.1rem;">📋 Control de asistencia del día – Clase activa</h2>
@@ -244,13 +814,16 @@
                 <th class="no-print">Acciones</th>
               </tr>
             </thead>
-            <tbody id="studentsTableBody"></tbody>
+            <tbody id="studentsTableBody">
+              <!-- Filas dinámicas -->
+            </tbody>
           </table>
           <div class="empty-state" id="emptyState">
             No hay estudiantes registrados en la clase activa.
           </div>
         </div>
 
+        <!-- Firmas para impresión tipo acta -->
         <table class="signatures-table">
           <tr>
             <td>
@@ -269,7 +842,7 @@
         </table>
       </div>
 
-      <!-- Historial -->
+      <!-- Historial de fechas -->
       <div class="card">
         <h2 style="margin: 0 0 10px; font-size: 1.1rem;">🗓️ Historial de fechas registradas</h2>
         <p class="subtitle">
@@ -283,10 +856,12 @@
             </select>
           </div>
         </div>
-        <div id="chipsFechas" class="date-chips"></div>
+        <div id="chipsFechas" class="date-chips">
+          <!-- Chips de fechas -->
+        </div>
       </div>
 
-      <!-- Resumen -->
+      <!-- Resumen de asistencia -->
       <div class="card">
         <h2 style="margin: 0 0 10px; font-size: 1.1rem;">📊 Resumen de asistencia por estudiante</h2>
         <p class="subtitle">
@@ -304,7 +879,9 @@
                 <th>% Asistencia</th>
               </tr>
             </thead>
-            <tbody id="summaryTableBody"></tbody>
+            <tbody id="summaryTableBody">
+              <!-- Resumen dinámico -->
+            </tbody>
           </table>
           <div class="empty-state" id="emptySummary">
             No hay registros de asistencia para calcular el resumen.
@@ -312,7 +889,7 @@
         </div>
       </div>
 
-      <!-- Pie -->
+      <!-- Pie de página institucional -->
       <div class="card footer-card">
         Sistema de Registro de Asistencia – Facultad de Ciencias Empresariales – UNICEN Cochabamba<br>
         Uso académico interno · Versión demo local (datos almacenados en el navegador)
@@ -320,6 +897,958 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // ===== Datos en localStorage =====
+    const STORAGE_KEY = "asistencia_unicen_acta_v1";
+
+    /**
+     * Estructura:
+     * {
+     *   docentes: {...},
+     *   currentDocenteId,
+     *   currentClaseId,
+     *   gestionAcademica,
+     *   periodo,
+     *   uiTheme,
+     *   uiFontSize,
+     *   uiLanguage,
+     *   studentsByClass: {
+     *     [claseId]: [ { id, ru, ci, name, email } ]
+     *   },
+     *   recordsByClass: {
+     *     [claseId]: {
+     *       [date]: {
+     *         [studentId]: { status, time }
+     *       }
+     *     }
+     *   }
+     * }
+     */
+
+    let appData = {
+      docentes: {},
+      currentDocenteId: null,
+      currentClaseId: null,
+      gestionAcademica: "",
+      periodo: "",
+      uiTheme: "theme-blue",
+      uiFontSize: "font-md",
+      uiLanguage: "es",
+      studentsByClass: {},
+      recordsByClass: {}
+    };
+
+    // ===== Utilidades de almacenamiento =====
+    function loadData() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        try {
+          const parsed = JSON.parse(raw);
+          appData.docentes = parsed.docentes || {};
+          appData.currentDocenteId = parsed.currentDocenteId || null;
+          appData.currentClaseId = parsed.currentClaseId || null;
+          appData.gestionAcademica = parsed.gestionAcademica || "";
+          appData.periodo = parsed.periodo || "";
+          appData.studentsByClass = parsed.studentsByClass || {};
+          appData.recordsByClass = parsed.recordsByClass || {};
+          appData.uiTheme = parsed.uiTheme || "theme-blue";
+          appData.uiFontSize = parsed.uiFontSize || "font-md";
+          appData.uiLanguage = parsed.uiLanguage || "es";
+        } catch (e) {
+          console.warn("No se pudo leer localStorage, iniciando datos vacíos.");
+        }
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    }
+
+    // ===== Helpers de docente / clase =====
+    function getDocenteById(id) {
+      return appData.docentes[id] || null;
+    }
+
+    function getCurrentDocente() {
+      return getDocenteById(appData.currentDocenteId);
+    }
+
+    function getCurrentClase() {
+      const docente = getCurrentDocente();
+      if (!docente) return null;
+      if (!appData.currentClaseId) return null;
+      return docente.clases[appData.currentClaseId] || null;
+    }
+
+    function getStudentsForCurrentClass() {
+      const clase = getCurrentClase();
+      if (!clase) return [];
+      return appData.studentsByClass[clase.id] || [];
+    }
+
+    function getAttendanceForCurrentClassAndDate(date) {
+      const clase = getCurrentClase();
+      if (!clase) return {};
+      const byClass = appData.recordsByClass[clase.id] || {};
+      return byClass[date] || {};
+    }
+
+    function setAttendanceForCurrentClassAndDate(date, studentId, status, time) {
+      const clase = getCurrentClase();
+      if (!clase) return;
+      if (!appData.recordsByClass[clase.id]) appData.recordsByClass[clase.id] = {};
+      if (!appData.recordsByClass[clase.id][date]) appData.recordsByClass[clase.id][date] = {};
+      appData.recordsByClass[clase.id][date][studentId] = { status, time };
+      saveData();
+    }
+
+    function getDatesForCurrentClass() {
+      const clase = getCurrentClase();
+      if (!clase) return [];
+      const classRecords = appData.recordsByClass[clase.id] || {};
+      return Object.keys(classRecords).sort();
+    }
+
+    function getCurrentDate() {
+      const dateInput = document.getElementById("attendanceDate");
+      return dateInput.value;
+    }
+
+    function formatTime(date = new Date()) {
+      return date.toLocaleTimeString();
+    }
+
+    function sanitizeFilename(str) {
+      return (str || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "_")
+        .replace(/[^a-z0-9_\-]/g, "");
+    }
+
+    // ===== PERSONALIZACIÓN UI =====
+    function applyTheme() {
+      const body = document.body;
+      body.classList.remove("theme-blue", "theme-green", "theme-purple");
+      if (appData.uiTheme) {
+        body.classList.add(appData.uiTheme);
+      }
+    }
+
+    function applyFontSize() {
+      const body = document.body;
+      body.classList.remove("font-sm", "font-md", "font-lg");
+      if (appData.uiFontSize) {
+        body.classList.add(appData.uiFontSize);
+      }
+    }
+
+    // ===== Render login (lista de docentes) =====
+    function renderDocentesLista() {
+      const cont = document.getElementById("docentesLista");
+      const docentesArr = Object.values(appData.docentes);
+      if (!docentesArr.length) {
+        cont.innerHTML = "<em>No hay docentes registrados aún.</em>";
+        return;
+      }
+      const spans = docentesArr
+        .map(d => `<span>${d.nombre}</span>`)
+        .join("");
+      cont.innerHTML = `<strong>Docentes registrados:</strong> ${spans}`;
+    }
+
+    // ===== Render clases del docente =====
+    function renderClasesSelect() {
+      const select = document.getElementById("selectClase");
+      const docente = getCurrentDocente();
+      select.innerHTML = `<option value="">Seleccionar...</option>`;
+      if (!docente) return;
+      const clasesEntries = Object.entries(docente.clases || {});
+      clasesEntries.forEach(([id, c]) => {
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = `${c.carrera} - ${c.materia} (${c.paralelo})`;
+        select.appendChild(opt);
+      });
+      if (appData.currentClaseId && docente.clases[appData.currentClaseId]) {
+        select.value = appData.currentClaseId;
+      }
+    }
+
+    // ===== Actualizar info de cabecera de clase =====
+    function updateClassInfoUI() {
+      const docente = getCurrentDocente();
+      const clase = getCurrentClase();
+      document.getElementById("headerDocente").textContent = docente ? docente.nombre : "—";
+
+      document.getElementById("infoCarrera").textContent = clase ? clase.carrera : "—";
+      document.getElementById("infoMateria").textContent = clase ? clase.materia : "—";
+      document.getElementById("infoParalelo").textContent = clase ? clase.paralelo : "—";
+
+      const hint = document.getElementById("hintClaseActiva");
+      if (clase) {
+        hint.textContent = `Clase activa: ${clase.carrera} – ${clase.materia} (${clase.paralelo}).`;
+      } else {
+        hint.textContent = "Primero seleccione o cree una clase para habilitar el registro de estudiantes.";
+      }
+
+      renderClasesSelect();
+    }
+
+    // ===== Render tabla de asistencia =====
+    function renderAsistencia() {
+      const tbody = document.getElementById("studentsTableBody");
+      const emptyState = document.getElementById("emptyState");
+      const clase = getCurrentClase();
+
+      tbody.innerHTML = "";
+
+      if (!clase) {
+        emptyState.style.display = "block";
+        emptyState.textContent = "No hay clase activa. Cree o seleccione una clase.";
+        document.getElementById("statTotal").textContent = "0";
+        document.getElementById("statPresentes").textContent = "0";
+        document.getElementById("statAusentes").textContent = "0";
+        return;
+      }
+
+      const students = getStudentsForCurrentClass();
+      const date = getCurrentDate();
+      const attendance = getAttendanceForCurrentClassAndDate(date);
+
+      if (!students.length) {
+        emptyState.style.display = "block";
+        emptyState.textContent = "No hay estudiantes registrados en la clase activa.";
+      } else {
+        emptyState.style.display = "none";
+      }
+
+      let countPresente = 0;
+      let countAusente = 0;
+
+      students.forEach((student, index) => {
+        const record = attendance[student.id] || {};
+        const status = record.status || "sin-marcar";
+
+        if (status === "presente") countPresente++;
+        if (status === "ausente") countAusente++;
+
+        const tr = document.createElement("tr");
+
+        const tdIndex = document.createElement("td");
+        tdIndex.textContent = index + 1;
+
+        const tdRU = document.createElement("td");
+        tdRU.textContent = student.ru;
+
+        const tdCI = document.createElement("td");
+        tdCI.textContent = student.ci;
+
+        const tdEmail = document.createElement("td");
+        tdEmail.textContent = student.email || "—";
+
+        const tdName = document.createElement("td");
+        tdName.textContent = student.name;
+
+        const tdStatus = document.createElement("td");
+        const statusSpan = document.createElement("span");
+        statusSpan.classList.add("status-pill");
+        if (status === "presente") {
+          statusSpan.classList.add("status-presente");
+          statusSpan.textContent = "Presente";
+        } else if (status === "ausente") {
+          statusSpan.classList.add("status-ausente");
+          statusSpan.textContent = "Ausente";
+        } else {
+          statusSpan.classList.add("status-sin-marcar");
+          statusSpan.textContent = "Sin marcar";
+        }
+        tdStatus.appendChild(statusSpan);
+
+        const tdTime = document.createElement("td");
+        tdTime.textContent = record.time || "-";
+
+        const tdActions = document.createElement("td");
+        tdActions.classList.add("no-print");
+
+        const btnPresent = document.createElement("button");
+        btnPresent.className = "btn btn-soft-success btn-sm btn-status";
+        btnPresent.textContent = "Presente";
+        btnPresent.dataset.id = student.id;
+        btnPresent.dataset.status = "presente";
+
+        const btnAbsent = document.createElement("button");
+        btnAbsent.className = "btn btn-soft-danger btn-sm btn-status";
+        btnAbsent.textContent = "Ausente";
+        btnAbsent.dataset.id = student.id;
+        btnAbsent.dataset.status = "ausente";
+
+        const btnEdit = document.createElement("button");
+        btnEdit.className = "btn btn-outline btn-icon btn-edit-student";
+        btnEdit.textContent = "✏️";
+        btnEdit.title = "Editar estudiante";
+        btnEdit.dataset.id = student.id;
+
+        const btnDelete = document.createElement("button");
+        btnDelete.className = "btn btn-soft-danger btn-icon btn-delete-student";
+        btnDelete.textContent = "🗑️";
+        btnDelete.title = "Eliminar estudiante";
+        btnDelete.dataset.id = student.id;
+
+        tdActions.appendChild(btnPresent);
+        tdActions.appendChild(btnAbsent);
+        tdActions.appendChild(btnEdit);
+        tdActions.appendChild(btnDelete);
+
+        tr.appendChild(tdIndex);
+        tr.appendChild(tdRU);
+        tr.appendChild(tdCI);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdName);
+        tr.appendChild(tdStatus);
+        tr.appendChild(tdTime);
+        tr.appendChild(tdActions);
+
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("statTotal").textContent = students.length;
+      document.getElementById("statPresentes").textContent = countPresente;
+      document.getElementById("statAusentes").textContent = countAusente;
+    }
+
+    // ===== Historial de fechas =====
+    function renderHistorialFechas() {
+      const select = document.getElementById("selectFechaHistorial");
+      const chips = document.getElementById("chipsFechas");
+      const dates = getDatesForCurrentClass();
+      const currentDate = getCurrentDate();
+
+      select.innerHTML = `<option value="">Seleccionar...</option>`;
+      chips.innerHTML = "";
+
+      if (!dates.length) {
+        const empty = document.createElement("span");
+        empty.textContent = "Sin fechas registradas aún.";
+        empty.style.fontSize = "0.85rem";
+        empty.style.color = "#6b7280";
+        chips.appendChild(empty);
+        return;
+      }
+
+      dates.forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d;
+        opt.textContent = d;
+        select.appendChild(opt);
+
+        const chip = document.createElement("span");
+        chip.className = "date-chip";
+        chip.textContent = d;
+        chip.dataset.date = d;
+        if (d === currentDate) {
+          chip.classList.add("active");
+          select.value = d;
+        }
+        chips.appendChild(chip);
+      });
+    }
+
+    // ===== Resumen de asistencia =====
+    function renderResumen() {
+      const tbody = document.getElementById("summaryTableBody");
+      const empty = document.getElementById("emptySummary");
+      const clase = getCurrentClase();
+
+      tbody.innerHTML = "";
+
+      if (!clase) {
+        empty.style.display = "block";
+        empty.textContent = "No hay clase activa para calcular el resumen.";
+        return;
+      }
+
+      const students = getStudentsForCurrentClass();
+      const dates = getDatesForCurrentClass();
+      const classRecords = appData.recordsByClass[clase.id] || {};
+
+      if (!students.length || !dates.length) {
+        empty.style.display = "block";
+        empty.textContent = "No hay registros de asistencia para calcular el resumen.";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      students.forEach((student, index) => {
+        let presentes = 0;
+        let ausentes = 0;
+
+        dates.forEach(date => {
+          const byDate = classRecords[date] || {};
+          const rec = byDate[student.id];
+          if (!rec) return;
+          if (rec.status === "presente") presentes++;
+          if (rec.status === "ausente") ausentes++;
+        });
+
+        const totalMarcado = presentes + ausentes;
+        const pct = totalMarcado > 0 ? ((presentes / totalMarcado) * 100).toFixed(1) : "0.0";
+
+        const tr = document.createElement("tr");
+
+        const tdIndex = document.createElement("td");
+        tdIndex.textContent = index + 1;
+
+        const tdRU = document.createElement("td");
+        tdRU.textContent = student.ru;
+
+        const tdName = document.createElement("td");
+        tdName.textContent = student.name;
+
+        const tdPres = document.createElement("td");
+        tdPres.textContent = presentes;
+
+        const tdAus = document.createElement("td");
+        tdAus.textContent = ausentes;
+
+        const tdPct = document.createElement("td");
+        tdPct.textContent = pct + " %";
+
+        tr.appendChild(tdIndex);
+        tr.appendChild(tdRU);
+        tr.appendChild(tdName);
+        tr.appendChild(tdPres);
+        tr.appendChild(tdAus);
+        tr.appendChild(tdPct);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ===== Lógica de asistencia =====
+    function setAttendance(studentId, status) {
+      const clase = getCurrentClase();
+      if (!clase) return;
+      const date = getCurrentDate();
+      let time = "";
+      if (status === "presente") {
+        time = formatTime();
+      }
+      setAttendanceForCurrentClassAndDate(date, studentId, status, time);
+      renderAsistencia();
+      renderHistorialFechas();
+      renderResumen();
+    }
+
+    function markAllPresent() {
+      const clase = getCurrentClase();
+      if (!clase) return;
+      const date = getCurrentDate();
+      const students = getStudentsForCurrentClass();
+      const now = formatTime();
+      if (!appData.recordsByClass[clase.id]) appData.recordsByClass[clase.id] = {};
+      if (!appData.recordsByClass[clase.id][date]) appData.recordsByClass[clase.id][date] = {};
+      students.forEach(s => {
+        appData.recordsByClass[clase.id][date][s.id] = {
+          status: "presente",
+          time: now
+        };
+      });
+      saveData();
+      renderAsistencia();
+      renderHistorialFechas();
+      renderResumen();
+    }
+
+    function clearDayAttendance() {
+      const clase = getCurrentClase();
+      if (!clase) return;
+      const date = getCurrentDate();
+      if (appData.recordsByClass[clase.id] && appData.recordsByClass[clase.id][date]) {
+        delete appData.recordsByClass[clase.id][date];
+        saveData();
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      }
+    }
+
+    // ===== Edición / eliminación de estudiantes =====
+    function editStudent(studentId) {
+      const clase = getCurrentClase();
+      if (!clase) return;
+      const list = appData.studentsByClass[clase.id] || [];
+      const student = list.find(s => s.id === studentId);
+      if (!student) return;
+
+      const nuevoRU = prompt("Editar RU (Registro Universitario):", student.ru);
+      if (nuevoRU === null) return;
+      const ruTrim = nuevoRU.trim();
+      if (!ruTrim) {
+        alert("El RU no puede estar vacío.");
+        return;
+      }
+      const repetido = list.find(s => s.ru.toLowerCase() === ruTrim.toLowerCase() && s.id !== studentId);
+      if (repetido) {
+        alert("Ya existe otro estudiante con ese RU en esta clase.");
+        return;
+      }
+
+      const nuevoCI = prompt("Editar CI (con extensión):", student.ci);
+      if (nuevoCI === null) return;
+      const ciTrim = nuevoCI.trim();
+      if (!ciTrim) {
+        alert("El CI no puede estar vacío.");
+        return;
+      }
+
+      const nuevoNombre = prompt("Editar nombre completo:", student.name);
+      if (nuevoNombre === null) return;
+      const nameTrim = nuevoNombre.trim();
+      if (!nameTrim) {
+        alert("El nombre no puede estar vacío.");
+        return;
+      }
+
+      const nuevoEmail = prompt("Editar correo (opcional):", student.email || "");
+      if (nuevoEmail === null) return;
+      const emailTrim = nuevoEmail.trim();
+
+      student.ru = ruTrim;
+      student.ci = ciTrim;
+      student.name = nameTrim;
+      student.email = emailTrim;
+
+      saveData();
+      renderAsistencia();
+      renderResumen();
+    }
+
+    function deleteStudent(studentId) {
+      const clase = getCurrentClase();
+      if (!clase) return;
+      if (!confirm("¿Eliminar este estudiante y todos sus registros de asistencia de esta clase?")) return;
+
+      const list = appData.studentsByClass[clase.id] || [];
+      appData.studentsByClass[clase.id] = list.filter(s => s.id !== studentId);
+
+      const classRecords = appData.recordsByClass[clase.id];
+      if (classRecords) {
+        for (const date in classRecords) {
+          if (classRecords[date][studentId]) {
+            delete classRecords[date][studentId];
+          }
+        }
+      }
+
+      saveData();
+      renderAsistencia();
+      renderHistorialFechas();
+      renderResumen();
+    }
+
+    // ===== Exportar CSV =====
+    function exportCsvForCurrentDate() {
+      const clase = getCurrentClase();
+      const docente = getCurrentDocente();
+      if (!clase || !docente) return;
+
+      const date = getCurrentDate();
+      const students = getStudentsForCurrentClass();
+      const attendance = getAttendanceForCurrentClassAndDate(date);
+
+      const lang = appData.uiLanguage || "es";
+      let lines = [];
+
+      if (lang === "en") {
+        lines.push(`University,UNIVERSIDAD CENTRAL (UNICEN)`);
+        lines.push(`Faculty,Faculty of Business Sciences`);
+        lines.push(`Academic term,${appData.gestionAcademica || ""}`);
+        lines.push(`Period,${appData.periodo || ""}`);
+        lines.push(`Teacher,${docente.nombre}`);
+        lines.push(`Program / Level,${clase.carrera}`);
+        lines.push(`Subject,${clase.materia}`);
+        lines.push(`Group,${clase.paralelo}`);
+        lines.push("");
+        lines.push("Date,Teacher,Program/Level,Subject,Group,Term,Period,RU,ID,Name,Email,Status,Time");
+      } else {
+        lines.push(`Universidad,UNIVERSIDAD CENTRAL (UNICEN)`);
+        lines.push(`Facultad,Facultad de Ciencias Empresariales`);
+        lines.push(`Gestión académica,${appData.gestionAcademica || ""}`);
+        lines.push(`Período,${appData.periodo || ""}`);
+        lines.push(`Docente,${docente.nombre}`);
+        lines.push(`Carrera / Nivel,${clase.carrera}`);
+        lines.push(`Asignatura,${clase.materia}`);
+        lines.push(`Paralelo / Grupo,${clase.paralelo}`);
+        lines.push("");
+        lines.push("Fecha,Docente,Carrera/Nivel,Asignatura,Paralelo,Gestión,Período,RU,CI,Nombre,Correo,Estado,Hora");
+      }
+
+      students.forEach((student) => {
+        const record = attendance[student.id] || {};
+        const status = record.status || "";
+        const time = record.time || "";
+        const row = [
+          date,
+          `"${docente.nombre}"`,
+          `"${clase.carrera}"`,
+          `"${clase.materia}"`,
+          `"${clase.paralelo}"`,
+          `"${appData.gestionAcademica || ""}"`,
+          `"${appData.periodo || ""}"`,
+          `"${student.ru}"`,
+          `"${student.ci}"`,
+          `"${student.name}"`,
+          `"${student.email || ""}"`,
+          status,
+          time
+        ].join(",");
+        lines.push(row);
+      });
+
+      const csvContent = lines.join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const codDoc = sanitizeFilename(docente.nombre);
+      const codCarrera = sanitizeFilename(clase.carrera);
+      const codMateria = sanitizeFilename(clase.materia);
+      const codParalelo = sanitizeFilename(clase.paralelo);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `acta_asistencia_unicen_${codDoc}_${codCarrera}_${codMateria}_${codParalelo}_${date}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // ===== Inicialización de eventos =====
+    document.addEventListener("DOMContentLoaded", () => {
+      loadData();
+
+      const loginView = document.getElementById("loginView");
+      const mainView = document.getElementById("mainView");
+
+      const dateInput = document.getElementById("attendanceDate");
+      const today = new Date().toISOString().split("T")[0];
+      dateInput.value = today;
+
+      // Aplicar tema y tamaño guardados
+      applyTheme();
+      applyFontSize();
+
+      // Cargar gestión / periodo
+      const gestionInput = document.getElementById("gestionAcademica");
+      const periodoSelect = document.getElementById("periodoAcademico");
+      gestionInput.value = appData.gestionAcademica || "";
+      if (appData.periodo) {
+        periodoSelect.value = appData.periodo;
+      }
+
+      gestionInput.addEventListener("input", () => {
+        appData.gestionAcademica = gestionInput.value.trim();
+        saveData();
+      });
+
+      periodoSelect.addEventListener("change", () => {
+        appData.periodo = periodoSelect.value;
+        saveData();
+      });
+
+      // Controles de personalización
+      const themeSelect = document.getElementById("uiTheme");
+      const fontSizeSelect = document.getElementById("uiFontSize");
+      const langSelect = document.getElementById("uiLanguage");
+
+      if (themeSelect) {
+        themeSelect.value = appData.uiTheme;
+        themeSelect.addEventListener("change", () => {
+          appData.uiTheme = themeSelect.value;
+          saveData();
+          applyTheme();
+        });
+      }
+
+      if (fontSizeSelect) {
+        fontSizeSelect.value = appData.uiFontSize;
+        fontSizeSelect.addEventListener("change", () => {
+          appData.uiFontSize = fontSizeSelect.value;
+          saveData();
+          applyFontSize();
+        });
+      }
+
+      if (langSelect) {
+        langSelect.value = appData.uiLanguage;
+        langSelect.addEventListener("change", () => {
+          appData.uiLanguage = langSelect.value;
+          saveData();
+        });
+      }
+
+      renderDocentesLista();
+
+      if (appData.currentDocenteId && getCurrentDocente()) {
+        loginView.style.display = "none";
+        mainView.style.display = "block";
+        updateClassInfoUI();
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      } else {
+        loginView.style.display = "block";
+        mainView.style.display = "none";
+      }
+
+      // ----- Login -----
+      const loginForm = document.getElementById("loginForm");
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nombre = document.getElementById("loginNombre").value.trim();
+        const pass = document.getElementById("loginPassword").value.trim();
+        if (!nombre || !pass) return;
+
+        const docentesArr = Object.values(appData.docentes);
+        const found = docentesArr.find(d => d.nombre.toLowerCase() === nombre.toLowerCase());
+        if (!found) {
+          alert("Docente no encontrado. Regístrelo primero.");
+          return;
+        }
+        if (found.password !== pass) {
+          alert("Contraseña incorrecta.");
+          return;
+        }
+        appData.currentDocenteId = found.id;
+        appData.currentClaseId = null;
+        saveData();
+
+        loginView.style.display = "none";
+        mainView.style.display = "block";
+        updateClassInfoUI();
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      });
+
+      document.getElementById("btnRegisterDocente").addEventListener("click", () => {
+        const nombre = document.getElementById("loginNombre").value.trim();
+        const pass = document.getElementById("loginPassword").value.trim();
+        if (!nombre || !pass) {
+          alert("Ingrese nombre y contraseña para registrar al docente.");
+          return;
+        }
+        const docentesArr = Object.values(appData.docentes);
+        const exists = docentesArr.find(d => d.nombre.toLowerCase() === nombre.toLowerCase());
+        if (exists) {
+          alert("Ya existe un docente con ese nombre. Use otro nombre o inicie sesión.");
+          return;
+        }
+        const id = "doc_" + Date.now().toString();
+        appData.docentes[id] = {
+          id,
+          nombre,
+          password: pass,
+          clases: {}
+        };
+        appData.currentDocenteId = id;
+        appData.currentClaseId = null;
+        saveData();
+        renderDocentesLista();
+
+        alert("Docente registrado correctamente.");
+        loginView.style.display = "none";
+        mainView.style.display = "block";
+        updateClassInfoUI();
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      });
+
+      // ----- Logout -----
+      document.getElementById("btnLogout").addEventListener("click", () => {
+        appData.currentDocenteId = null;
+        appData.currentClaseId = null;
+        saveData();
+        document.getElementById("loginPassword").value = "";
+        loginView.style.display = "block";
+        mainView.style.display = "none";
+        renderDocentesLista();
+      });
+
+      // ----- Crear clase -----
+      const classConfigForm = document.getElementById("classConfigForm");
+      classConfigForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const docente = getCurrentDocente();
+        if (!docente) {
+          alert("Primero inicie sesión como docente.");
+          return;
+        }
+        const carrera = document.getElementById("carrera").value.trim();
+        const materia = document.getElementById("materia").value.trim();
+        const paralelo = document.getElementById("paralelo").value.trim();
+        if (!carrera || !materia || !paralelo) return;
+
+        const claseId = "clase_" + Date.now().toString();
+        if (!docente.clases) docente.clases = {};
+        docente.clases[claseId] = { id: claseId, carrera, materia, paralelo };
+        appData.currentClaseId = claseId;
+        if (!appData.studentsByClass[claseId]) appData.studentsByClass[claseId] = [];
+        saveData();
+
+        classConfigForm.reset();
+        updateClassInfoUI();
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      });
+
+      // ----- Select de clase -----
+      document.getElementById("selectClase").addEventListener("change", (e) => {
+        const claseId = e.target.value;
+        if (!claseId) {
+          appData.currentClaseId = null;
+        } else {
+          appData.currentClaseId = claseId;
+        }
+        saveData();
+        updateClassInfoUI();
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      });
+
+      // ----- Form estudiantes -----
+      const studentForm = document.getElementById("studentForm");
+      studentForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const clase = getCurrentClase();
+        if (!clase) {
+          alert("Primero seleccione o cree una clase.");
+          return;
+        }
+        const ruInput = document.getElementById("studentRU");
+        const ciInput = document.getElementById("studentCI");
+        const nameInput = document.getElementById("studentName");
+        const emailInput = document.getElementById("studentEmail");
+
+        const ru = ruInput.value.trim();
+        const ci = ciInput.value.trim();
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+
+        if (!ru || !ci || !name) return;
+
+        if (!appData.studentsByClass[clase.id]) appData.studentsByClass[clase.id] = [];
+        const list = appData.studentsByClass[clase.id];
+
+        const exists = list.find(s => s.ru.toLowerCase() === ru.toLowerCase());
+        if (exists) {
+          alert("Ya existe un estudiante con ese RU en esta clase.");
+          return;
+        }
+
+        const newStudent = {
+          id: "st_" + Date.now().toString(),
+          ru,
+          ci,
+          name,
+          email
+        };
+        list.push(newStudent);
+        saveData();
+        studentForm.reset();
+        renderAsistencia();
+        renderResumen();
+      });
+
+      // ----- Cambio de fecha -----
+      dateInput.addEventListener("change", () => {
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      });
+
+      // ----- Botones de estado / edición / eliminación -----
+      const tbody = document.getElementById("studentsTableBody");
+      tbody.addEventListener("click", (e) => {
+        const target = e.target;
+        if (target.classList.contains("btn-status")) {
+          const id = target.dataset.id;
+          const status = target.dataset.status;
+          setAttendance(id, status);
+        } else if (target.classList.contains("btn-edit-student")) {
+          const id = target.dataset.id;
+          editStudent(id);
+        } else if (target.classList.contains("btn-delete-student")) {
+          const id = target.dataset.id;
+          deleteStudent(id);
+        }
+      });
+
+      // ----- Botones de acciones -----
+      document.getElementById("btnMarkAllPresent").addEventListener("click", () => {
+        const clase = getCurrentClase();
+        if (!clase) {
+          alert("Primero seleccione una clase.");
+          return;
+        }
+        markAllPresent();
+      });
+
+      document.getElementById("btnClearDay").addEventListener("click", () => {
+        const clase = getCurrentClase();
+        if (!clase) {
+          alert("Primero seleccione una clase.");
+          return;
+        }
+        if (confirm("¿Seguro que desea limpiar la asistencia de esta fecha para esta clase?")) {
+          clearDayAttendance();
+        }
+      });
+
+      document.getElementById("btnExportCsv").addEventListener("click", () => {
+        const clase = getCurrentClase();
+        if (!clase) {
+          alert("Primero seleccione una clase.");
+          return;
+        }
+        exportCsvForCurrentDate();
+      });
+
+      document.getElementById("btnPrintPdf").addEventListener("click", () => {
+        const clase = getCurrentClase();
+        if (!clase) {
+          alert("Primero seleccione una clase.");
+          return;
+        }
+        window.print();
+      });
+
+      // ----- Historial de fechas: select + chips -----
+      document.getElementById("selectFechaHistorial").addEventListener("change", (e) => {
+        const val = e.target.value;
+        if (!val) return;
+        document.getElementById("attendanceDate").value = val;
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      });
+
+      document.getElementById("chipsFechas").addEventListener("click", (e) => {
+        const chip = e.target.closest(".date-chip");
+        if (!chip) return;
+        const date = chip.dataset.date;
+        if (!date) return;
+        document.getElementById("attendanceDate").value = date;
+        renderAsistencia();
+        renderHistorialFechas();
+        renderResumen();
+      });
+    });
+  </script>
 </body>
 </html>
